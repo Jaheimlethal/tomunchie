@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surprise for Okasana</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #000;
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+      color: white;
+      text-align: center;
+    }
+    .message {
+      font-size: 3rem;
+      text-align: center;
+      animation: colorChange 2s infinite;
+      position: relative;
+      display: inline-block;
+    }
+    .heart {
+      font-size: 3rem;
+      animation: pulse 1.5s infinite alternate;
+    }
+    @keyframes colorChange {
+      0% { color: red; }
+      20% { color: orange; }
+      40% { color: yellow; }
+      60% { color: green; }
+      80% { color: blue; }
+      100% { color: purple; }
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(1.5); opacity: 0.5; }
+    }
+    .hidden {
+      display: none;
+    }
+    .button {
+      padding: 20px 40px;
+      font-size: 1.5rem;
+      background-color: #ff69b4;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .button:hover {
+      background-color: #ff1493;
+    }
+    .question-container {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+    .answers {
+      margin-top: 20px;
+    }
+    .answer-button {
+      margin: 10px;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      background-color: #ff1493;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+    .answer-button:hover {
+      background-color: #ff69b4;
+    }
+    .try-again {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="questionSection">
+    <div id="questionContainer" class="question-container">
+      <p>What is my name?</p>
+      <div class="answers">
+        <button class="answer-button" id="answer1" onclick="checkAnswer('Jaheim')">Jaheim</button>
+        <button class="answer-button" id="answer2" onclick="checkAnswer('Jahiem')">Jahiem</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="tryAgainSection" class="hidden">
+    <p class="try-again">Oops, try again!</p>
+    <button class="button" onclick="resetQuestion()">Retry</button>
+  </div>
+
+  <div id="messageSection" class="hidden">
+    <div class="message bounce">
+      I love you Okasana Campbell
+      <span class="heart">❤️</span>
+    </div>
+  </div>
+
+  <script>
+    let currentQuestion = 1;
+
+    // Function to check if the answer is correct or not
+    function checkAnswer(answer) {
+      if (currentQuestion === 1) {
+        if (answer === 'Jaheim') {
+          showNextQuestion("When is our anniversary?", ["January 20, 2025", "January 13, 2025"], "January 20, 2025");
+        } else {
+          showTryAgain();
+        }
+      } else if (currentQuestion === 2) {
+        if (answer === 'January 20, 2025') {
+          showNextQuestion("Does Jaheim love you?", ["Yes", "No"], "Yes");
+        } else {
+          showTryAgain();
+        }
+      } else if (currentQuestion === 3) {
+        if (answer === 'Yes') {
+          showMessage();
+        } else {
+          showTryAgain();
+        }
+      }
+    }
+
+    // Function to show the next question
+    function showNextQuestion(questionText, options, correctAnswer) {
+      currentQuestion++;
+      document.getElementById("questionContainer").innerHTML = `
+        <p>${questionText}</p>
+        <div class="answers">
+          <button class="answer-button" onclick="checkAnswer('${options[0]}')">${options[0]}</button>
+          <button class="answer-button" onclick="checkAnswer('${options[1]}')">${options[1]}</button>
+        </div>
+      `;
+    }
+
+    // Function to show the message after all questions are answered correctly
+    function showMessage() {
+      document.getElementById("questionSection").classList.add("hidden");
+      document.getElementById("messageSection").classList.remove("hidden");
+    }
+
+    // Function to show the "Try Again" section
+    function showTryAgain() {
+      document.getElementById("questionSection").classList.add("hidden");
+      document.getElementById("tryAgainSection").classList.remove("hidden");
+    }
+
+    // Function to reset the question section
+    function resetQuestion() {
+      document.getElementById("tryAgainSection").classList.add("hidden");
+      document.getElementById("questionSection").classList.remove("hidden");
+      currentQuestion = 1; // Reset to the first question
+    }
+  </script>
+</body>
+</html>
